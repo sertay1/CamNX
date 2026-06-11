@@ -1,8 +1,9 @@
+# CamNX 📷🎮
+
 <p align="center">
   <img src="romfs/CamNX%20Logo.png" width="250">
 </p>
 
-# CamNX 📷🎮
 
 [English](#english) | [Türkçe](#türkçe)
 
