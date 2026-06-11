@@ -1,4 +1,4 @@
-# CamNX 📷
+<h1 align="center">CamNX 📷🎮</h1>
 
 <p align="center">
   <img src="romfs/CamNX%20Logo.png" width="250">
