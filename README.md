@@ -1,11 +1,8 @@
-<p align="center">
-## CamNX 📷🎮
-</p>
+# CamNX 📷🎮
 
 <p align="center">
   <img src="romfs/CamNX%20Logo.png" width="250">
 </p>
-
 
 [English](#english) | [Türkçe](#türkçe)
 
@@ -40,9 +37,17 @@ Record your surroundings from a different perspective with CamNX, adding a compl
 
 ## 📥 Installation
 
-1. Download the latest `CamNX.nro` file from the **Releases** page.
-2. Place the downloaded `.nro` file into the `switch/CamNX/` folder on your SD card. (Create the folder if it doesn't exist).
-3. Open the Homebrew Menu on your console and launch CamNX!
+**Method 1: Homebrew App Store (Automatic Installation)**
+You can download and install the application directly on your Switch via the HB App Store.
+
+[![HB App Store](ScreenShots/HBAppstore.png)](#)
+
+**Method 2: Manual Installation**
+You can install the application by downloading it on your computer and transferring it to your SD card.
+
+1. Download the latest `CamNX.nro` file from the [Releases](../../releases/latest) page.
+2. Place the downloaded file into the `switch/` folder on your SD card. (Create the folder if it doesn't exist: `SD:/switch/CamNX/CamNX.nro`).
+3. Open the Homebrew Menu (hbmenu) on your Switch and launch the CamNX application.
 
 *Note: When the application is launched for the first time, a sample photo (SertAy.jpg) will automatically appear in your gallery.*
 
@@ -84,9 +89,17 @@ Konsolunuza tamamen yeni bir özellik kazandıran CamNX ile etrafınızı farkl�
 
 ## 📥 Kurulum (Nasıl Yüklenir?)
 
-1. Bu sayfanın **Releases** kısmından en güncel `CamNX.nro` dosyasını indirin.
-2. İndirdiğiniz `.nro` dosyasını SD kartınızdaki `switch/CamNX/` klasörünün içine atın. (Eğer klasör yoksa kendiniz oluşturun).
-3. Konsolunuzdan Homebrew Menu'ye girin ve CamNX'i başlatın!
+**1. Yöntem: Homebrew App Store (Otomatik Kurulum)**
+Uygulamayı doğrudan Switch üzerinden HB App Store aracılığıyla indirip kurabilirsiniz.
+
+[![HB App Store](ScreenShots/HBAppstore.png)](#)
+
+**2. Yöntem: Manuel Kurulum**
+Uygulamayı bilgisayarınız üzerinden indirip SD kartınıza atarak kurabilirsiniz.
+
+1. [Releases](../../releases/latest) sayfasından en güncel `CamNX.nro` dosyasını indirin.
+2. SD kartınızdaki `switch/` klasörünün içine bu dosyayı atın. (Eğer klasör yoksa oluşturun: `SD:/switch/CamNX/CamNX.nro`)
+3. Switch üzerinden Homebrew Menu'ye (hbmenu) girip CamNX uygulamasını çalıştırın.
 
 *Not: Uygulama ilk kez çalıştırıldığında örnek bir fotoğraf (SertAy.jpg) galerinizde otomatik olarak belirecektir.*
 
