@@ -40,7 +40,7 @@ Record your surroundings from a different perspective with CamNX, adding a compl
 **Method 1: Homebrew App Store (Automatic Installation)**
 You can download and install the application directly on your Switch via the HB App Store.
 
-[![HB App Store](ScreenShots/HBAppstore.png)](#)
+[![HB App Store](romfs/HBAppstore.png)](#)
 
 **Method 2: Manual Installation**
 You can install the application by downloading it on your computer and transferring it to your SD card.
@@ -92,7 +92,7 @@ Konsolunuza tamamen yeni bir özellik kazandıran CamNX ile etrafınızı farkl�
 **1. Yöntem: Homebrew App Store (Otomatik Kurulum)**
 Uygulamayı doğrudan Switch üzerinden HB App Store aracılığıyla indirip kurabilirsiniz.
 
-[![HB App Store](ScreenShots/HBAppstore.png)](#)
+[![HB App Store](romfs/HBAppstore.png)](#)
 
 **2. Yöntem: Manuel Kurulum**
 Uygulamayı bilgisayarınız üzerinden indirip SD kartınıza atarak kurabilirsiniz.
