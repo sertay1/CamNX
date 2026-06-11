@@ -1,5 +1,5 @@
 <p align="center">
-# CamNX 📷🎮
+## CamNX 📷🎮
 </p>
 
 <p align="center">
