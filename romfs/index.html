@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CamNX</title>
+  <link rel="icon" type="image/png" href="/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:       #18181c;
+      --surface:  #202026;
+      --surface2: #28282f;
+      --border:   #303038;
+      --accent:   #31eb1a;
+      --accent2:  #38d9a9;
+      --text:     #ededf0;
+      --muted:    #78788a;
+      --dim:      #48485a;
+      --r:        12px;
+      --rs:       7px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0;
+      position: sticky;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+    }
+    .logo-icon { width: 32px; height: 32px; border-radius: 7px; object-fit: cover; flex-shrink: 0; }
+    .logo-text { font-size: 17px; font-weight: 600; letter-spacing: -0.2px; }
+    .header-stats { display: flex; gap: 16px; align-items: center; }
+    .stat-pill { display: flex; align-items: center; gap: 5px; font-size: 13px; color: var(--muted); }
+    .stat-pill b { color: var(--text); font-weight: 500; }
+    .stat-div { width: 1px; height: 14px; background: var(--border); }
+
+    .filter-divider { width: 1px; height: 20px; background: var(--border); margin: 0 4px; flex-shrink: 0; }
+    #game-filters { display: flex; gap: 7px; flex-wrap: wrap; }
+    .header-row1 {
+      display: flex;
+      align-items: center;
+      height: 62px;
+      padding: 0 20px;
+      gap: 10px;
+    }
+    .header-filters {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .header-spacer { flex: 1; }
+    .header-games {
+      display: flex;
+      align-items: center;
+      padding: 0 24px 8px;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 7px 18px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.14s;
+    }
+    .filter-btn:hover { color: var(--text); border-color: var(--dim); }
+    .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #111; }
+    .filter-btn.game { background: rgba(56,217,169,0.06); }
+    .filter-btn.game.active { background: #38d9a9; border-color: #38d9a9; color: #111; }
+    .select-all-btn {
+      padding: 7px 18px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.14s;
+    }
+    .select-all-btn:hover { color: var(--text); border-color: var(--dim); }
+
+    .refresh-btn {
+      width: 32px; height: 32px;
+      border-radius: var(--rs);
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-size: 15px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.14s;
+    }
+    .refresh-btn:hover { color: var(--text); border-color: var(--dim); background: var(--surface2); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 12px;
+      padding: 18px 24px 100px;
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: var(--r);
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: border-color 0.14s, transform 0.12s, box-shadow 0.14s;
+      position: relative;
+    }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); border-color: var(--border); }
+    .card.selected { border-color: white; }
+    .card.selected.video-card { border-color: var(--accent); }
+
+    .card-thumb { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; background: var(--surface2); }
+    .card-thumb-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 30px; }
+
+    .card-info { padding: 9px 11px; display: flex; flex-direction: column; gap: 3px; }
+    .card-datetime { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; color: var(--text); }
+    .card-datetime .sep { color: var(--dim); }
+    .card-time-val { color: var(--accent); font-family: 'DM Mono', monospace; font-size: 11px; }
+    .card-size { font-size: 11px; color: var(--muted); }
+
+    .type-badge {
+      position: absolute; top: 7px; left: 7px;
+      padding: 2px 7px;
+      border-radius: var(--rs);
+      font-size: 10px; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase;
+      background: rgba(8,8,14,0.72); color: white;
+      border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(4px);
+    }
+    .type-badge.png { background: rgba(56,217,169,0.85); }
+    .type-badge.video { background: rgba(49,235,26,0.85); color: #111; border-color: rgba(49,235,26,0.85); }
+
+    .check-overlay {
+      position: absolute; top: 7px; right: 7px;
+      width: 21px; height: 21px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.35);
+      background: rgba(0,0,0,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; color: transparent;
+      transition: all 0.14s;
+      backdrop-filter: blur(4px);
+    }
+    .card.selected .check-overlay { background: white; border-color: white; color: #222; }
+    .card.selected.video-card .check-overlay { background: var(--accent); border-color: var(--accent); color: #111; }
+
+    .download-bar {
+      display: none; position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--surface); border-top: 1px solid var(--border);
+      padding: 11px 24px; align-items: center; gap: 10px; z-index: 200;
+    }
+    .download-bar.visible { display: flex; }
+    .download-bar span { color: var(--muted); font-size: 13px; }
+    .download-bar span b { color: var(--text); }
+    .dl-btn {
+      margin-left: auto;
+      padding: 8px 20px; border-radius: var(--rs);
+      background: var(--accent); color: #111;
+      font-weight: 600; font-size: 13px; font-family: 'DM Sans', sans-serif;
+      border: none; cursor: pointer; transition: opacity 0.14s;
+    }
+    .dl-btn:hover { opacity: 0.85; }
+    .clear-btn {
+      padding: 8px 14px; border-radius: var(--rs);
+      background: transparent; color: var(--muted);
+      font-size: 13px; font-family: 'DM Sans', sans-serif;
+      border: 1px solid var(--border); cursor: pointer; transition: all 0.14s;
+    }
+    .clear-btn:hover { color: var(--text); }
+
+    .load-more-wrap {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      text-align: center; padding: 14px;
+      background: linear-gradient(transparent, var(--bg) 45%);
+      z-index: 150;
+    }
+    .load-more-btn {
+      padding: 9px 26px; border-radius: 22px;
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--text); font-size: 13px; font-family: 'DM Sans', sans-serif; font-weight: 500;
+      cursor: pointer; transition: all 0.14s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+    .load-more-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .lightbox {
+      display: none; position: fixed; inset: 0;
+      background: rgba(6,6,10,0.93); z-index: 500;
+      align-items: center; justify-content: center;
+      flex-direction: column; gap: 14px;
+      backdrop-filter: blur(10px);
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img, .lightbox video {
+      max-width: 90vw; max-height: 78vh;
+      border-radius: 10px; box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+      cursor: pointer;
+    }
+    .lightbox-meta { color: var(--muted); font-size: 12px; text-align: center; font-family: 'DM Mono', monospace; }
+    .lightbox-meta b { color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 500; }
+    .lb-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(60,60,60,0.75);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      font-size: 0;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+      user-select: none;
+      flex-shrink: 0;
+      backdrop-filter: blur(4px);
+    }
+    .lb-nav:hover { background: rgba(90,90,90,0.9); }
+    .lb-prev { left: 16px; }
+    .lb-next { right: 16px; }
+    .lb-nav.hidden { opacity: 0; pointer-events: none; }
+    .lightbox-actions { display: flex; gap: 9px; }
+    .lb-btn { padding: 9px 20px; border-radius: var(--rs); border: none; font-size: 13px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: opacity 0.14s; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; }
+    .lb-btn:hover { opacity: 0.85; }
+    .lb-dl { background: var(--accent); color: #111; }
+    .lb-close { background: var(--surface2); color: var(--muted); border: 1px solid var(--border); }
+
+    footer {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      height: 42px; padding: 0 24px;
+      display: flex; align-items: center; gap: 9px;
+      background: var(--surface); border-top: 1px solid var(--border);
+      z-index: 98;
+    }
+    footer.hidden { display: none; }
+    .footer-icon { width: 20px; height: 20px; border-radius: 5px; object-fit: cover; }
+    .footer-text { font-size: 11px; color: var(--dim); }
+    .footer-text b { color: var(--muted); font-weight: 500; }
+
+    .status-msg { text-align: center; padding: 80px 24px; color: var(--muted); }
+    .spinner { display: inline-block; width: 26px; height: 26px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.65s linear infinite; margin-bottom: 12px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 700px) {
+      .header-row1 {
+        height: auto;
+        min-height: 50px;
+        padding: 6px 12px;
+        gap: 6px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .logo-icon { width: 28px; height: 28px; flex-shrink: 0; }
+      .logo-text { font-size: 15px; flex-shrink: 0; }
+      .header-spacer { display: none; }
+      .header-actions {
+        order: 3;
+        flex-shrink: 0;
+        gap: 5px;
+        margin-left: auto;
+      }
+      .header-stats {
+        order: 4;
+        margin-left: 0;
+        flex-shrink: 0;
+      }
+      .header-filters {
+        order: 10;
+        width: 100%;
+        flex-wrap: nowrap;
+        gap: 5px;
+        overflow-x: auto;
+      }
+      .select-all-btn {
+        padding: 5px 10px;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+      .refresh-btn {
+        font-size: 14px;
+        padding: 4px 8px;
+        flex-shrink: 0;
+      }
+      .filter-btn {
+        padding: 5px 11px;
+        font-size: 12px;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .filter-btn.game {
+        padding: 4px 8px;
+        font-size: 10px;
+        flex: 0 0 calc(33% - 6px);
+        max-width: calc(33% - 6px);
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      #game-filters {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+      .header-games {
+        padding: 0 12px 8px;
+      }
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        padding: 10px 10px 100px;
+      }
+      .meta { font-size: 11px; }
+      .meta .time { font-size: 11px; }
+      .download-bar { padding: 10px 12px; }
+      #lb-prev, #lb-next { display: none; }
+      .lb-prev-inline, .lb-next-inline {
+        position: static !important;
+        transform: none !important;
+        display: flex !important;
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
+        background: rgba(60,60,60,0.75);
+        flex-shrink: 0;
+      }
+      .lightbox-actions {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 8px;
+        justify-content: center;
+      }
+      .lightbox-actions .lb-btn.lb-dl    { flex: 1; }
+      .lightbox-actions .lb-btn.lb-close { flex: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-row1">
+    <img class="logo-icon" src="/logo.png">
+    <span class="logo-text">CamNX</span>
+    <div class="header-filters">
+      <button class="filter-btn active" data-filter="">All</button>
+      <button class="filter-btn" data-filter="photos">Photos</button>
+      <button class="filter-btn" data-filter="videos">Videos</button>
+      <button class="filter-btn game" id="game-toggle-btn" onclick="toggleGameFilters()" style="display:none;">Games ▾</button>
+    </div>
+    <div class="header-spacer"></div>
+    <div class="header-actions">
+      <button class="select-all-btn" id="select-all-btn">Select all</button>
+      <button class="refresh-btn" id="refresh-btn" title="Refresh">⟳</button>
+    </div>
+    <div class="header-stats">
+      <div class="stat-pill">📷 <b id="stat-screenshots">0</b></div>
+      <div class="stat-div"></div>
+      <div class="stat-pill">🎬 <b id="stat-videos">0</b></div>
+    </div>
+  </div>
+  <div class="header-games" style="display:none;">
+    <div class="filter-divider" style="display:none"></div>
+    <div id="game-filters" style="display:none"></div>
+  </div>
+</header>
+
+<div id="content"></div>
+
+<div style="text-align:center; padding: 20px;">
+  <a href="https://video-converter.com/" target="_blank" style="display:inline-block; padding:12px 24px; background:#31eb1a; color:#111; text-decoration:none; border-radius:8px; font-weight:600; font-family:'DM Sans',sans-serif; box-shadow:0 4px 12px rgba(49,235,26,0.3);">🔄 Convert AVI to MP4 Online</a>
+  <div style="color:var(--muted); font-size:12px; margin-top:8px;">Since browsers don't play AVI natively, use this free converter!</div>
+</div>
+
+<div class="download-bar" id="download-bar">
+  <span><b id="sel-count">0</b> selected</span>
+  <button class="clear-btn" id="clear-sel">Clear</button>
+  <button class="dl-btn" id="dl-selected">Download</button>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <button class="lb-nav lb-prev hidden" id="lb-prev" onclick="lightboxNav(-1)"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="11,3 5,9 11,15" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline></svg></button>
+  <div id="lb-media-wrap"></div>
+  <button class="lb-nav lb-next hidden" id="lb-next" onclick="lightboxNav(1)"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="7,3 13,9 7,15" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline></svg></button>
+  <div class="lightbox-meta" id="lb-meta"></div>
+  <div class="lightbox-actions">
+    <button class="lb-nav lb-prev lb-prev-inline hidden" id="lb-prev-2" onclick="lightboxNav(-1)"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="11,3 5,9 11,15" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline></svg></button>
+    <button class="lb-btn lb-dl" id="lb-dl">Download</button>
+    <button class="lb-btn lb-close" id="lb-close">✕ Close</button>
+    <button class="lb-nav lb-next lb-next-inline hidden" id="lb-next-2" onclick="lightboxNav(1)"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="7,3 13,9 7,15" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline></svg></button>
+  </div>
+</div>
+
+<footer id="footer">
+  <img class="footer-icon" src="/logo.png">
+  <span class="footer-text"><b>CamNX</b> &nbsp;—&nbsp; by SertAy</span>
+</footer>
+
+<script>
+const BASE = '';
+let allFiles = [], filteredFiles = [], currentFilter = '', currentGame = '';
+let selected = new Set(), offset = 0;
+const LIMIT = 60;
+let total = 0, loading = false, currentLightboxFile = null;
+
+function formatDateTime(date, time) {
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  if (!date) return { dateStr: '', timeStr: '' };
+  const parts = date.split('-');
+  if (parts.length !== 3) return { dateStr: date, timeStr: time || '' };
+  const [y, m, d] = parts;
+  const hhmm = time ? time.slice(0,5) : '';
+  return { dateStr: `${months[parseInt(m)-1]} ${parseInt(d)}, ${y}`, timeStr: hhmm };
+}
+
+function toggleGameFilters() {
+  const container = document.getElementById('game-filters');
+  const btn = document.getElementById('game-toggle-btn');
+  const visible = container.style.display !== 'none';
+  container.style.display = visible ? 'none' : 'flex';
+  btn.textContent = visible ? 'Games ▾' : 'Games ▴';
+  const gamesRow = container.closest('.header-games');
+  if (gamesRow) gamesRow.style.display = visible ? 'none' : 'flex';
+}
+
+function updateGameButtonStyles() {
+  document.querySelectorAll('.filter-btn.game:not(#game-toggle-btn)').forEach(btn => {
+    const active = btn.dataset.game === currentGame;
+    btn.classList.toggle('active', active);
+    btn.style.background = active ? '#38d9a9' : '';
+    btn.style.borderColor = active ? '#38d9a9' : '';
+    btn.style.color = active ? '#111' : '';
+  });
+}
+
+function populateGameFilters(games) {
+  const container = document.getElementById('game-filters');
+  if (!container) return;
+  container.innerHTML = '';
+  const allBtn = document.createElement('button');
+  allBtn.className = 'filter-btn game';
+  allBtn.dataset.game = '';
+  allBtn.textContent = 'All Games';
+  allBtn.addEventListener('click', () => {
+    currentGame = '';
+    updateGameButtonStyles();
+    clearSelection(); loadFiles(true);
+  });
+  container.appendChild(allBtn);
+
+  games.forEach(game => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn game';
+    btn.dataset.game = game;
+    btn.textContent = game.length > 20 ? game.substring(0, 18) + '…' : game;
+    btn.title = game;
+    btn.addEventListener('click', () => {
+      currentGame = game;
+      updateGameButtonStyles();
+      clearSelection(); loadFiles(true);
+    });
+    container.appendChild(btn);
+  });
+  updateGameButtonStyles();
+}
+
+async function init() { await loadFiles(true); setupEvents(); startWatchdog(); }
+
+let watchdogTimer = null;
+function startWatchdog() {
+  if (watchdogTimer) clearInterval(watchdogTimer);
+  watchdogTimer = setInterval(async () => {
+    try {
+      const r = await fetch('/api/list?offset=0&limit=1', { signal: AbortSignal.timeout(3000) });
+      if (r.ok) {
+        // connection is back — if we were showing error, reload
+        const c = document.getElementById('content');
+        if (c && c.querySelector('.status-msg') && c.innerHTML.includes('hata')) {
+          await loadFiles(true);
+        }
+      }
+    } catch(e) { /* still offline */ }
+  }, 5000); // check every 5 seconds
+}
+
+async function loadFiles(reset = false) {
+  if (loading) return;
+  loading = true;
+  if (reset) { offset = 0; allFiles = []; }
+  try {
+    const params = new URLSearchParams({offset, limit: LIMIT});
+    if (currentFilter) params.set('filter', currentFilter);
+    if (currentGame) params.set('game', currentGame);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    const res = await fetch(`${BASE}/api/list?${params}`, { signal: controller.signal });
+    clearTimeout(timeout);
+    const data = await res.json();
+    total = data.total;
+    document.getElementById('stat-screenshots').textContent = data.screenshots;
+    document.getElementById('stat-videos').textContent = data.videos;
+    if (reset) populateGameFilters(data.games || []);
+    allFiles = reset ? data.files : [...allFiles, ...data.files];
+    filteredFiles = allFiles;
+    offset += data.files.length;
+    renderGrid(reset);
+  } catch(e) {
+    if (reset) {
+      document.getElementById('content').innerHTML = `<div class="status-msg">⚠️ Bağlantı hatası — Switch'in IP adresini kontrol edin ya da [X] Yenile'ye basın.<br><small>${e.message}</small><br><br><button onclick="init()" style="margin-top:12px;padding:10px 24px;background:var(--accent);color:#111;border:none;border-radius:8px;font-weight:600;cursor:pointer;">🔄 Tekrar Dene</button></div>`;
+    }
+  } finally { loading = false; }
+}
+
+function renderGrid(reset = false) {
+  const content = document.getElementById('content');
+  if (reset) content.innerHTML = '';
+  if (filteredFiles.length === 0) { content.innerHTML = '<div class="status-msg">No media found</div>'; return; }
+  let grid = content.querySelector('.grid');
+  if (reset || !grid) { content.innerHTML = ''; grid = document.createElement('div'); grid.className = 'grid'; content.appendChild(grid); }
+
+  const startIdx = reset ? 0 : grid.children.length;
+  filteredFiles.slice(startIdx).forEach(file => {
+    const card = document.createElement('div');
+    card.className = `card${file.type === 'video' ? ' video-card' : ''}`;
+    card.dataset.filename = file.filename;
+    const isVideo = file.type === 'video';
+    const mediaUrl = `${BASE}/photos/${encodeURIComponent(file.filename)}`;
+    const thumbUrl = `${BASE}/photos/${encodeURIComponent(file.filename)}`;
+    const sizeMb = (file.size / 1024 / 1024).toFixed(1);
+    const { dateStr, timeStr } = formatDateTime(file.date, file.time);
+
+    card.innerHTML = `
+      <div class="check-overlay">✓</div>
+      <img class="card-thumb" src="${thumbUrl}" loading="lazy"
+           onerror="this.outerHTML='<div class=\'card-thumb-placeholder\'>${isVideo ? '🎬' : '📷'}</div>'">
+      <span class="type-badge${isVideo ? ' video' : ''}${file.filename.toLowerCase().endsWith('.png') ? ' png' : ''}">${isVideo ? 'Video' : file.filename.toLowerCase().endsWith('.png') ? 'PNG' : 'Photo'}</span>
+      <div class="card-info">
+        <div class="card-datetime">
+          <span>${dateStr}</span><span class="sep">·</span>
+          <span class="card-time-val">${timeStr}</span>
+        </div>
+        <div class="card-size">${sizeMb} MB</div>
+      </div>`;
+
+    card.addEventListener('click', e => {
+      if (selected.size > 0) toggleSelect(file.filename, card);
+      else openLightbox(file);
+    });
+    card.addEventListener('contextmenu', e => { e.preventDefault(); toggleSelect(file.filename, card); });
+    grid.appendChild(card);
+  });
+
+  const existing = content.querySelector('.load-more-wrap');
+  if (existing) existing.remove();
+  if (offset < total) {
+    const wrap = document.createElement('div');
+    wrap.className = 'load-more-wrap';
+    wrap.innerHTML = `<button class="load-more-btn">Load more &nbsp;(${total - offset} remaining)</button>`;
+    wrap.querySelector('button').addEventListener('click', () => loadFiles(false));
+    content.appendChild(wrap);
+  }
+  updateFooter();
+}
+
+function toggleSelect(filename, card) {
+  if (selected.has(filename)) { selected.delete(filename); card.classList.remove('selected'); }
+  else { selected.add(filename); card.classList.add('selected'); }
+  updateDownloadBar();
+}
+
+let currentLightboxIndex = -1;
+
+function openLightbox(file) {
+  currentLightboxFile = file;
+  currentLightboxIndex = filteredFiles.findIndex(f => f.filename === file.filename);
+  renderLightbox(file);
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function renderLightbox(file) {
+  currentLightboxFile = file;
+  const mediaUrl = `${BASE}/photos/${encodeURIComponent(file.filename)}`;
+  const { dateStr, timeStr } = formatDateTime(file.date, file.time);
+  document.getElementById('lb-media-wrap').innerHTML = file.type === 'video'
+    ? `<div style="text-align:center;padding:30px;">
+        <div style="font-size:50px;margin-bottom:16px;">🎬</div>
+        <div style="color:var(--text);font-weight:600;margin-bottom:8px;">${file.filename}</div>
+        <div style="color:var(--muted);font-size:13px;margin-bottom:20px;">AVI video — tarayıcı doğrudan oynatamaz.<br>İndirip izleyebilirsiniz.</div>
+        <a href="${mediaUrl}" download="${file.filename}" style="display:inline-block;padding:12px 28px;background:var(--accent);color:#111;border-radius:8px;font-weight:700;text-decoration:none;font-size:15px;">⬇ İndir / Download</a>
+      </div>`
+    : `<img src="${mediaUrl}" style="max-width:90vw;max-height:75vh;border-radius:10px;cursor:pointer;" onclick="closeLightbox()">`;
+  document.getElementById('lb-meta').innerHTML = `<b>${dateStr}</b> &nbsp; ${timeStr} &nbsp;·&nbsp; ${(file.size/1024/1024).toFixed(1)} MB`;
+  const atStart = currentLightboxIndex <= 0;
+  const atEnd   = currentLightboxIndex >= filteredFiles.length - 1;
+  ['lb-prev','lb-prev-2'].forEach(id => { const el = document.getElementById(id); if(el) el.classList.toggle('hidden', atStart); });
+  ['lb-next','lb-next-2'].forEach(id => { const el = document.getElementById(id); if(el) el.classList.toggle('hidden', atEnd); });
+}
+
+function lightboxNav(dir) {
+  const newIndex = currentLightboxIndex + dir;
+  if (newIndex < 0 || newIndex >= filteredFiles.length) return;
+  currentLightboxIndex = newIndex;
+  currentLightboxFile = filteredFiles[newIndex];
+  renderLightbox(currentLightboxFile);
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lb-media-wrap').innerHTML = '';
+  currentLightboxFile = null;
+}
+
+function downloadFile(filename) {
+  const a = document.createElement('a');
+  a.href = `${BASE}/photos/${encodeURIComponent(filename)}`;
+  a.download = filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+async function downloadSelected() {
+  const files = [...selected];
+  const btn = document.getElementById('dl-selected');
+  btn.disabled = true;
+  for (let i = 0; i < files.length; i++) {
+    btn.textContent = `⬇ ${i+1}/${files.length}...`;
+    downloadFile(files[i]);
+    await new Promise(r => setTimeout(r, 600));
+  }
+  btn.disabled = false; btn.textContent = '⬇ Download';
+}
+
+function updateDownloadBar() {
+  document.getElementById('sel-count').textContent = selected.size;
+  document.getElementById('download-bar').classList.toggle('visible', selected.size > 0);
+  updateFooter();
+}
+
+function updateFooter() {
+  document.getElementById('footer').classList.toggle('hidden',
+    document.getElementById('download-bar').classList.contains('visible'));
+}
+
+function clearSelection() {
+  selected.clear();
+  document.querySelectorAll('.card.selected').forEach(c => c.classList.remove('selected'));
+  updateDownloadBar();
+}
+
+function setupEvents() {
+  document.querySelectorAll('.filter-btn:not(.game)').forEach(btn => btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn:not(.game)').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    clearSelection(); loadFiles(true);
+  }));
+  document.getElementById('refresh-btn').addEventListener('click', async () => {
+    document.getElementById('content').innerHTML = '<div class="status-msg"><div class="spinner"></div><br>Refreshing...</div>';
+    await fetch('/api/refresh'); clearSelection(); await loadFiles(true);
+  });
+  document.getElementById('select-all-btn').addEventListener('click', () => {
+    const cards = document.querySelectorAll('.card');
+    const allSel = [...cards].every(c => c.classList.contains('selected'));
+    if (allSel) { clearSelection(); } else {
+      filteredFiles.forEach(f => selected.add(f.filename));
+      cards.forEach(c => c.classList.add('selected'));
+      updateDownloadBar();
+    }
+  });
+  document.getElementById('dl-selected').addEventListener('click', downloadSelected);
+  document.getElementById('clear-sel').addEventListener('click', clearSelection);
+  document.getElementById('lb-close').addEventListener('click', closeLightbox);
+  document.getElementById('lb-media-wrap').addEventListener('click', closeLightbox);
+  document.getElementById('lightbox').addEventListener('click', e => {
+    if (e.target === document.getElementById('lightbox')) closeLightbox();
+  });
+  document.getElementById('lb-dl').addEventListener('click', () => {
+    if (currentLightboxFile) downloadFile(currentLightboxFile.filename);
+  });
+  document.addEventListener('keydown', e => {
+    if (document.getElementById('lightbox').classList.contains('open')) {
+      if (e.key === 'ArrowLeft')  { lightboxNav(-1); return; }
+      if (e.key === 'ArrowRight') { lightboxNav(1);  return; }
+    } if (e.key === 'Escape') { closeLightbox(); clearSelection(); } });
+}
+
+init();
+</script>
+</body>
+</html>
