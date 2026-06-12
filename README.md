@@ -55,8 +55,6 @@ You can install the application by downloading it on your computer and transferr
 2. Place the downloaded file into the `switch/` folder on your SD card. (Create the folder if it doesn't exist: `SD:/switch/CamNX/CamNX.nro`).
 3. Open the Homebrew Menu (hbmenu) on your Switch and launch the CamNX application.
 
-*Note: When the application is launched for the first time, a sample photo (SertAy.jpg) will automatically appear in your gallery.*
-
 ## 🎮 Usage Guide
 
 1. After entering the application, point the IR sensor located at the bottom of the **Right Joy-Con** towards the object you want to shoot.
@@ -112,8 +110,6 @@ Uygulamayı bilgisayarınız üzerinden indirip SD kartınıza atarak kurabilirs
 1. [Releases](../../releases/latest) sayfasından en güncel `CamNX.nro` dosyasını indirin.
 2. SD kartınızdaki `switch/` klasörünün içine bu dosyayı atın. (Eğer klasör yoksa oluşturun: `SD:/switch/CamNX/CamNX.nro`)
 3. Switch üzerinden Homebrew Menu'ye (hbmenu) girip CamNX uygulamasını çalıştırın.
-
-*Not: Uygulama ilk kez çalıştırıldığında örnek bir fotoğraf (SertAy.jpg) galerinizde otomatik olarak belirecektir.*
 
 ## 🎮 Kullanım Rehberi
 
