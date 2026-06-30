@@ -129,4 +129,9 @@ Uygulamayı bilgisayarınız üzerinden indirip SD kartınıza atarak kurabilirs
 
 ---
 
-**Developer / Geliştirici:** SertAy
+## 📄 License / Lisans
+
+Tüm hakları saklıdır (All Rights Reserved) — © 2026 SertAy.  
+Bu projenin kodlarının kopyalanması, üzerinde değişiklik yapılması veya izinsiz dağıtılması yasaktır. Lütfen LICENSE dosyasını inceleyiniz.
+
+Copying, modifying, or unauthorized distribution of the code is strictly prohibited. Please see the LICENSE file for details.
