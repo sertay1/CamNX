@@ -7,7 +7,7 @@
   <br><br>
 
   <a href="#-english-setup-and-usage-guide">
-    <img src="https://img.shields.io/badge/Language-English-blue?style=for-the-badge" alt="English">
+    <img src="https://img.shields.io/badge/Language-English-blue?style=for-the-badge" alt="#english">
   </a>
   &nbsp;&nbsp;
   <a href="#-türkçe-kurulum-ve-kullanım-rehberi">
