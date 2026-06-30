@@ -5,7 +5,8 @@
 </p>
 
   <br><br>
-
+<div align="center">
+  
 <a href="#english" style="text-decoration:none;"><img src="https://img.shields.io/badge/Language-English-blue?style=for-the-badge" alt="English"></a> &nbsp;&nbsp; <a href="#türkçe" style="text-decoration:none;"><img src="https://img.shields.io/badge/Dil-Türkçe-red?style=for-the-badge" alt="Türkçe"></a>
 </div>
 
