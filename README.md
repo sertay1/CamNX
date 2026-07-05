@@ -74,7 +74,7 @@ You can install the application by downloading it on your computer and transferr
 
 | Links | QR Code |
 | :--- | :--- |
-| **All Links:** [My Linktree](https://linktr.ee/yamanx) | <a href="https://linktr.ee/yamanx"><img src="assets/qr_SertAyTumLinkler.png" width="120"/></a> |
+| **All Links:** [My Linktree](https://linktr.ee/yamanx) | <a href="https://linktr.ee/yamanx"><img src="romfs/qr_SertAyTumLinkler.png" width="120"/></a> |
 
 ---
 
@@ -140,7 +140,7 @@ Uygulamayı bilgisayarınız üzerinden indirip SD kartınıza atarak kurabilirs
 
 | Linkler | QR Kod |
 | :--- | :--- |
-| **Tüm Linkler:** [Linktree Sayfam](https://linktr.ee/yamanx) | <a href="https://linktr.ee/yamanx"><img src="assets/qr_SertAyTumLinkler.png" width="120"/></a> |
+| **Tüm Linkler:** [Linktree Sayfam](https://linktr.ee/yamanx) | <a href="https://linktr.ee/yamanx"><img src="romfs/qr_SertAyTumLinkler.png" width="120"/></a> |
 
 ---
 
