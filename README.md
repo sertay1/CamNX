@@ -68,6 +68,16 @@ You can install the application by downloading it on your computer and transferr
 
 ---
 
+## 🔗 Contact and Donate
+
+### SertAy
+
+| Links | QR Code |
+| :--- | :--- |
+| **All Links:** [My Linktree](https://linktr.ee/yamanx) | <a href="https://linktr.ee/yamanx"><img src="assets/qr_SertAyTumLinkler.png" width="120"/></a> |
+
+---
+
 <a name="türkçe"></a>
 # Türkçe
 
@@ -121,6 +131,16 @@ Uygulamayı bilgisayarınız üzerinden indirip SD kartınıza atarak kurabilirs
 2. Ekranda gösterilen buton yönlendirmeleri ile filtreler arasında geçiş yapabilir ve çözünürlüğü değiştirebilirsiniz.
 3. Galeride fotoğrafları incelemek için Y tuşuna basarak Menü'ye, oradan da Galeri'ye gidin.
 4. Dosyaları bilgisayara veya telefona aktarmak için menüden "Fotoğraf Paylaşımı" sekmesine gelin. Ekranda çıkan IP adresini (örn: `192.168.1.5:8080`) aynı ağa bağlı cihazınızın tarayıcısına yazarak dosyalara ulaşın!
+
+---
+
+## 🔗 İletişim ve Bağış
+
+### SertAy
+
+| Linkler | QR Kod |
+| :--- | :--- |
+| **Tüm Linkler:** [Linktree Sayfam](https://linktr.ee/yamanx) | <a href="https://linktr.ee/yamanx"><img src="assets/qr_SertAyTumLinkler.png" width="120"/></a> |
 
 ---
 
