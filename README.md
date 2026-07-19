@@ -46,7 +46,7 @@ You can download and install the application directly on your Switch via the HB 
 
 <p align="center">
   <a href="https://hb-app.store/switch/CamNX">
-    <img src="romfs/hbappstore.png" alt="HB Store İndirme Linki" width="300"/>
+    <img src="romfs/hbappstore.png" alt="HB Store Download Link" width="300"/>
     <br>
     <b>HB Store İndirme Linki</b>
   </a>
